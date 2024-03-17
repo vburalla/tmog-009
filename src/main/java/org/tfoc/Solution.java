@@ -13,7 +13,7 @@ public class Solution {
 
     public int orangesRotting(int[][] grid) {
 
-        List<Point> freshPoints = getFreshPoints(grid);
+        List<Point> freshPoints = getInitialFreshPoints(grid);
 
         int i = 0;
         if (!freshPoints.isEmpty()) {
@@ -26,13 +26,13 @@ public class Solution {
                 pointsWithRottenNeighbours = getPointsWithRottenNeighbours(freshPoints, grid);
                 i++;
             }
-            return freshPoints.isEmpty() ? i : -1;
-        } else {
-            return 0;
+            if (!freshPoints.isEmpty())
+                i = -1;
         }
+        return i;
     }
 
-    private List<Point> getFreshPoints(int[][] grid) {
+    private List<Point> getInitialFreshPoints(int[][] grid) {
 
         List<Point> freshPoints = new ArrayList<>();
 
@@ -48,17 +48,17 @@ public class Solution {
 
     private Set<Point> getPointsWithRottenNeighbours(List<Point> points, int[][] grid) {
 
-        Set<Point> withRottenNeighbours = new HashSet<>();
+        Set<Point> pointsWithRottenNeighbours = new HashSet<>();
 
         for (Point point : points) {
             if ((point.x > 0 && grid[point.y][point.x - 1] == 2) ||
                     (point.x < (grid[point.y].length - 1) && grid[point.y][point.x + 1] == 2) ||
                     (point.y > 0 && grid[point.y - 1][point.x] == 2) ||
                     (point.y < (grid.length - 1) && grid[point.y + 1][point.x] == 2))
-                withRottenNeighbours.add(point);
+                pointsWithRottenNeighbours.add(point);
 
         }
-        return withRottenNeighbours;
+        return pointsWithRottenNeighbours;
     }
 
 }
